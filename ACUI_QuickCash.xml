@@ -1,0 +1,103 @@
+<Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
+
+<Script file="ACUI_QuickCash.lua"/>
+<!-- Frame to handle all core events 
+
+			<OnDragStart>
+				QuickCash_Window_OnDragStart();
+			</OnDragStart>
+			<OnDragStop>
+				QuickCash_Window_OnDragStop();
+			</OnDragStop>
+
+-->
+
+
+	<Frame name="QuickCashFrame" enableMouse="true" movable="true" hidden="true" parent="UIParent" frameStrata="BACKGROUND">
+		<Size>
+			<AbsDimension x="125" y="20"/>
+		</Size>
+        <Anchors>
+            <Anchor point="CENTER" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="3" right="3" top="3" bottom="3"/>
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32"/>
+			</TileSize>
+			<EdgeSize> 
+				<AbsValue val="12"/>
+			</EdgeSize>
+		</Backdrop> 
+		<Frames>
+			<Frame name="$parentMoneyFrame" inherits="SmallMoneyFrameTemplate" frameStrata="ARTWORK">
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parent" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="0" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						this:RegisterEvent("VARIABLES_LOADED");
+						this:RegisterEvent("PLAYER_MONEY")
+						this:RegisterEvent("PLAYER_TRADE_MONEY")
+						this:RegisterEvent("TRADE_MONEY_CHANGED")
+						this:RegisterEvent("SEND_MAIL_MONEY_CHANGED")	
+						this:RegisterEvent("SEND_MAIL_COD_CHANGED")
+						SmallMoneyFrame_OnLoad(self, "PLAYER");
+						QuickCash_WindowMoney_OnLoad();
+					</OnLoad>
+					<OnEvent>
+						if (event == "VARIABLES_LOADED") then 
+							QuickCash_WindowMoney_initialize();
+		        end 
+						MoneyFrame_OnEvent(self, event);
+					</OnEvent>
+					<OnShow>
+	 					MoneyFrame_SetType(QuickCashFrameMoneyFrame, "PLAYER");
+	   				MoneyFrame_UpdateMoney(QuickCashFrameMoneyFrame);		
+					</OnShow>
+				</Scripts>
+			</Frame>
+		</Frames>
+	        <Scripts>
+			<OnLoad>
+				QuickCash_Window_OnLoad();
+			</OnLoad>
+			<OnEvent>
+				QuickCash_Window_OnEvent(event);
+			</OnEvent>
+			<OnMouseUp>
+				QuickCash_Window_OnMouseUp(arg1);
+			</OnMouseUp>
+			<OnMouseDown>
+				QuickCash_Window_OnMouseDown(arg1);
+			</OnMouseDown>
+			
+		</Scripts>
+	</Frame>
+
+
+	<Frame name="QuickCash_core" hidden="true">
+		<Scripts>
+			<OnLoad>
+		            this:RegisterEvent("VARIABLES_LOADED"); 
+		    	</OnLoad>
+		
+			<OnEvent>
+		        	if (event == "VARIABLES_LOADED") then 
+		               		QuickCash_initialize(); 
+		            	end 
+			</OnEvent>
+		</Scripts>
+	
+	</Frame>
+</Ui>

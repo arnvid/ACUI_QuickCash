@@ -1,0 +1,7 @@
+## Interface: 30000
+## Title: ACUI Quick Cash
+## Notes: A tiny functioning cash display
+## OptionalDeps:
+## Dependencies:
+## SavedVariables: QuickCash_State
+ACUI_QuickCash.xml
